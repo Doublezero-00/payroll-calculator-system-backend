@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import MongodbConnect from "./init/mongodb.js";
 import userRouter from "./routes/userRouter.js";
+import db from "./init/mysqlConnection.js"
+
 //init app
 var app = express();
 
@@ -12,10 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //routes section
-app.use("/auth", userRouter);
-
-//database connection
-MongodbConnect();
+app.use("/api/auth", userRouter);
 
 app.listen(8000, () => {
   console.log("Server is running on port 8000");
