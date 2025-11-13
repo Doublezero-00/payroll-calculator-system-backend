@@ -11,4 +11,8 @@ const loginValidator = [
     check("password").notEmpty().withMessage("Password is required").isLength({min: 6}).withMessage("Password must be at least 6 characters long")
 ]
 
-export { signupValidator, loginValidator };
+const roleValidator = [
+  check("role").isInt({ min: 1, max: 2 }).withMessage("Role must be either 1 or 2")
+];
+
+export { signupValidator, loginValidator, roleValidator };

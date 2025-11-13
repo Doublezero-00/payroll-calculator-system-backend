@@ -24,9 +24,8 @@ export async function Signup(req, res) {
     );
 
     return res.status(201).json({ message: "User created successfully" });
-    
   } catch (error) {
-    console.log("Signup Error:", error); 
+    console.log("Signup Error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 }
@@ -52,13 +51,12 @@ export async function Login(req, res) {
     }
 
     const token = GenerateToken(storedUser);
-  
+
     return res.status(200).json({
       message: "User logged in successfully",
       user: storedUser,
       data: { token },
     });
-
   } catch (error) {
     console.log("Login Error:", error);
     return res.status(500).json({ message: "Server error" });
@@ -69,13 +67,52 @@ export async function getAllUsers(req, res) {
   try {
     const [users] = await db.query("SELECT * FROM register");
 
-    if(users.length === 0) {
+    if (users.length === 0) {
       return res.json({ message: "No any user" });
-    }else {
+    } else {
       return res.status(200).json({ usersData: users });
     }
-  }catch(error) {
-    return res.json({ message: error.message })
+  } catch (error) {
+    return res.json({ message: error.message });
   }
+}
 
+export async function EditUser(req, res) {
+  try {
+    const { name, email, role } = req.body;
+    const { id } = req.params;
+
+    const [user] = await db.query("SELECT * FROM register WHERE id = ?", [id]);
+
+    if (user.length === 0) {
+      console.log("User not found");
+      return res.status(401).json({ message: "User not found" });
+    } else {
+      await db.query(
+        "UPDATE register SET name = ?, email = ?, role = ? WHERE id = ?",
+        [name, email, role, id]
+      );
+      return res.status(200).json({ message: "User updated successfully" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+export async function DeleteUser(req, res) {
+  try {
+    const { id } = req.params;
+
+    const [user] = await db.query("SELECT * FROM register WHERE id = ?", [id]);
+    if (user.length === 0) {
+      return res.status(401).json({ message: "User not found" });
+    } else {
+      await db.query("DELETE FROM register WHERE id = ?", [id]);
+      await db.query("UPDATE register SET id = id - 1 WHERE id > ?", [id]);
+      return res.status(200).json({ message: "User deleted successfully" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 }
