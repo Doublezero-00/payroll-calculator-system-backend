@@ -74,11 +74,11 @@ export async function deleteSalary(req, res) {
   try {
     const id = req.params.id;
 
-    const [user] = db.query("SELECT * FROM salaries WHERE id = ?", [id]);
+    const [user] = await db.query("SELECT * FROM salaries WHERE id = ?", [id]);
     if(user.length === 0) {
       return res.status(401).json("Can't find user");
     }else {
-      db.query("DELETE salaries WHERE id = ?", [id]);
+      await db.query("DELETE FROM salaries WHERE id = ?", [id]);
       return res.status(200).json("Salary deleted successfully");
     }
   }catch(error) {

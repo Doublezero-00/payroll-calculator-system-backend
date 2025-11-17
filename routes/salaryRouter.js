@@ -17,7 +17,7 @@ salaryRouter.post(
 );
 
 salaryRouter.get("/all-salaries", isAuth, isAdmin, getAllSalaries);
-salaryRouter.put("/edit/:id", updateSalary);
-salaryRouter.delete("/delete/:id", deleteSalary);
+salaryRouter.put("/edit/:id", isAuth, isAdmin, updateSalary);
+salaryRouter.delete("/delete/:id", isAuth, isAdmin, deleteSalary);
 
 export default salaryRouter;
