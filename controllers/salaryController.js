@@ -17,8 +17,7 @@ export async function calculateSalary(req, res) {
       Number(overtime_hours) * Number(overtime_rate) -
       Number(deductions);
 
-
-    await db.query(
+      await db.query(
       "INSERT INTO salaries (employee_id, base_salary, allowance, deductions, overtime_hours, overtime_rate, net_salary) VALUES (?, ?, ?, ?, ?, ?, ?)",
       [
         employee_id,
@@ -34,14 +33,15 @@ export async function calculateSalary(req, res) {
     res
       .status(201)
       .json({ message: "Salary calculated successfully", net_salary });
-  } catch (error) {
+    }
+  catch (error) {
     return res.status(500).json({ message: error.message });
   }
 }
 
 export async function getAllSalaries(req, res) {
   try {
-    const [salaries] = db.query("SELECT * FROM salaries");
+    const [salaries] = await db.query("SELECT id, employee_id, base_salary, allowance, deductions, overtime_hours, overtime_rate, net_salary FROM salaries");
 
     if(salaries.length === 0) {
       return res.status(401).json("No any salary");

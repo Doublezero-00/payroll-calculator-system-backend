@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import userRouter from "./routes/userRouter.js";
 import salaryRouter from "./routes/salaryRouter.js";
-import db from "./init/mysqlConnection.js";
+import dashboardRouter from "./routes/dashboardRouter.js";
 
 //init app
 var app = express();
@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //routes section
 app.use("/api/auth", userRouter);
 app.use("/api/salary", salaryRouter);
+app.use("/api/dashboard", dashboardRouter);
 
 app.listen(8000, () => {
   console.log("Server is running on port 8000");
