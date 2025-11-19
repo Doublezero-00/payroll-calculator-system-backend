@@ -58,11 +58,11 @@ export async function updateSalary(req, res) {
     const { base_salary, allowance, deductions, overtime_hours, overtime_rate, net_salary } = req.body;
     const id = req.params.id;
 
-    const [user] = db.query("SELECT * FROM salaries WHERE id = ?", [id]);
+    const user = await db.query("SELECT * FROM salaries WHERE id = ?", [id]);
     if(user.length === 0) {
-      return res.status(401).json("Can't find user");
+      return res.status(404).json("Can't find user");
     }else {
-      db.query("UPDATE salaries SET base_salary = ?, allowance = ?, deductions = ?, overtime_hours = ?, overtime_rate = ?, net_salary = ?", [base_salary, allowance, deductions, overtime_hours, overtime_rate, net_salary]);
+      db.query("UPDATE salaries SET base_salary = ?, allowance = ?, deductions = ?, overtime_hours = ?, overtime_rate = ?, net_salary = ? WHERE id = ?", [base_salary, allowance, deductions, overtime_hours, overtime_rate, net_salary, id]);
       return res.status(200).json("Salary updated successfully");
     }
   }catch(error) {
