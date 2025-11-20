@@ -1,10 +1,10 @@
-// backend/init/mysqlConnection.js
+
 import mysql from "mysql2/promise";
 
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "", // change if needed
+  password: "",
   database: "payroll_system",
   connectionLimit: 10,
 });

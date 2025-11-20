@@ -1,5 +1,5 @@
 import express from "express";
-import generateSalaryPDF, {calculateSalary, getAllSalaries, updateSalary, deleteSalary, getSalaryWithUser} from "../controllers/salaryController.js";
+import {generateSalaryPDF, calculateSalary, getAllSalaries, updateSalary, deleteSalary, getSalaryWithUser} from "../controllers/salaryController.js";
 import isAuth from "../middlewares/isAuth.js";
 import isAdmin from "../middlewares/isAdmin.js";
 import calculateSalaryValidator from "../validator/salary.js";
