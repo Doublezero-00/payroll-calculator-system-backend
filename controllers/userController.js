@@ -116,3 +116,19 @@ export async function DeleteUser(req, res) {
     return res.status(500).json({ message: error.message });
   }
 }
+
+export async function GetProfile(req, res) {
+  try {
+    const id = req.user.id;
+
+    const [user] = await db.query("SELECT * FROM register WHERE id = ?", [id]);
+
+    if (user.length === 0) {
+      return res.status(401).json("Can't find user");
+    } else {
+      return res.status(200).json({ userData: user[0] });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}

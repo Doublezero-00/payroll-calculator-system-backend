@@ -5,6 +5,7 @@ import {
   getAllUsers,
   EditUser,
   DeleteUser,
+  GetProfile,
 } from "../controllers/userController.js";
 import {
   signupValidator,
@@ -22,5 +23,6 @@ userRouter.post("/login", loginValidator, Validate, Login);
 userRouter.get("/all-users", isAuth, isAdmin, getAllUsers);
 userRouter.put("/edit/:id", isAuth, isAdmin, roleValidator, Validate, EditUser);
 userRouter.delete("/delete/:id", isAuth, isAdmin, DeleteUser);
+userRouter.get("/profile/:id", isAuth, GetProfile);
 
 export default userRouter;
