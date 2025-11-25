@@ -55,7 +55,7 @@ export async function Login(req, res) {
     return res.status(200).json({
       message: "User logged in successfully",
       user: storedUser,
-      data: { token },
+      token,
     });
   } catch (error) {
     console.log("Login Error:", error);
@@ -119,14 +119,14 @@ export async function DeleteUser(req, res) {
 
 export async function GetProfile(req, res) {
   try {
-    const id = req.user.id;
+    const email = req.user.email;
 
-    const [user] = await db.query("SELECT * FROM register WHERE id = ?", [id]);
+    const [user] = await db.query("SELECT * FROM register WHERE email = ?", [email]);
 
     if (user.length === 0) {
       return res.status(401).json("Can't find user");
     } else {
-      return res.status(200).json({ userData: user[0] });
+      return res.status(200).json(user[0]);
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
