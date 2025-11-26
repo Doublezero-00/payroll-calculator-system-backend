@@ -25,4 +25,5 @@ userRouter.put("/edit/:id", isAuth, isAdmin, roleValidator, Validate, EditUser);
 userRouter.delete("/delete/:id", isAuth, isAdmin, DeleteUser);
 userRouter.get("/profile", isAuth, GetProfile);
 
+
 export default userRouter;

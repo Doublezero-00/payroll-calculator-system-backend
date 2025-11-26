@@ -1,5 +1,5 @@
 import express from "express";
-import {generateSalaryPDF, calculateSalary, getAllSalaries, updateSalary, deleteSalary, getSalaryWithUser} from "../controllers/salaryController.js";
+import {generateSalaryPDF, calculateSalary, getAllSalaries, updateSalary, deleteSalary, getSalaryWithUser, getMySalary, downloadMySalaryPDF} from "../controllers/salaryController.js";
 import isAuth from "../middlewares/isAuth.js";
 import isAdmin from "../middlewares/isAdmin.js";
 import calculateSalaryValidator from "../validator/salary.js";
@@ -21,5 +21,7 @@ salaryRouter.put("/edit/:id", isAuth, isAdmin, updateSalary);
 salaryRouter.delete("/delete/:id", isAuth, isAdmin, deleteSalary);
 salaryRouter.get("/preview/:salaryId", isAuth, isAdmin, getSalaryWithUser);
 salaryRouter.post("/create-pdf/:salaryId", generateSalaryPDF);
+salaryRouter.get("/my-salary", isAuth, getMySalary);
+salaryRouter.get("/my-salary/download", isAuth, downloadMySalaryPDF);
 
 export default salaryRouter;

@@ -190,3 +190,42 @@ export async function generateSalaryPDF(req, res) {
     return res.status(500).json({ message: error.message });
   }
 }
+
+export async function getMySalary(req, res) {
+  try {
+    const userId = req.user.id;
+
+    const [salary] = await db.query("SELECT * FROM salaries WHERE employee_id = ?", [userId]);
+
+    if(salary.length === 0) {
+      return res.status(404).json("No salary record found");
+    }
+
+    const [user] = await db.query("SELECT * FROM register WHERE id = ?", [userId]);
+
+    return res.json({salary: salary[0], user: user[0]});
+
+  }catch(error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+export async function downloadMySalaryPDF(req, res) {
+  try {
+    const userId = req.user.id;
+
+    const [salary_report] = await db.query("SELECT * FROM salary_reports WHERE employee_id = ?", [userId]);
+
+    if(salary_report.length === 0) {
+      return res.status(404).json("No salary record found");
+    }
+
+    const fileName = salary_report[0].file_path;
+    const filePath = path.join(__dirname, "..", fileName);
+
+    return res.download(filePath);
+
+  }catch(error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
