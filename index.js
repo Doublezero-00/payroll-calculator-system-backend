@@ -4,12 +4,22 @@ import bodyParser from "body-parser";
 import userRouter from "./routes/userRouter.js";
 import salaryRouter from "./routes/salaryRouter.js";
 import dashboardRouter from "./routes/dashboardRouter.js";
+import morgan from "morgan";
+import logger from "./logger/logger.js";
 
 //init app
 var app = express();
 
 //third-party middleware
 app.use(cors());
+app.use(
+  morgan("combined", {
+    stream: {
+      write: (message) => logger.info(message.trim())
+    }
+  })
+);
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
